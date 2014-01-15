@@ -8,7 +8,7 @@
     <tbody>
     <tr>
         <td colspan="2">
-            <a class="pull-left" href="#">Receipt URL Address</a>
+            <a target="_blank" class="pull-left" href="{$short_code}">Receipt URL Address</a>
             {literal}
                 <!-- AddThis Button BEGIN -->
                 <div class="addthis_toolbox addthis_default_style pull-right">

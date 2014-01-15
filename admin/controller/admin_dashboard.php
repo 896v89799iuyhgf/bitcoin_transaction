@@ -62,9 +62,12 @@ if($page == 'main'){
 
     $user = $admin_model->getUserInfo($user_id);
     $trans = $admin_model->getTransactionById($trans_id);
+    $url = 'http://tkb.edu.vn/bitcoin_template/receipt?c=' . $trans['short_code'];
+
     $smarty->assign('trans', $trans);
     $smarty->assign('user', $user);
     $smarty->assign('trans_id', $trans_id);
+    $smarty->assign('short_code', $url);
 }
 
 $smarty->assign('page', $page);

@@ -11,7 +11,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
         $_SESSION['admin_logged'] = true;
         header("Location: admin_dashboard?page=main");
     } else {
-        $smarty->assign('site_error', 'Wrong Username or Password!', true);
+        $smarty->assign('site_error', 'Wrong Email or Password!', true);
         $smarty->display('login.tpl');
     }
 } else {

@@ -23,7 +23,7 @@ class ReceiptModel extends Database
     {
         $fee = $this->calculateFee($total);
         $total = $total + $fee;
-        $trans_query = $this->pdo->prepare("INSERT INTO transactions (user_id, sender_wallet, transaction_hash, total, payment_reason, order_number, notes, transaction_message, transaction_date) VALUES (:user_id, :transaction_hash, :total, :payment_reason, :order_number, :notes, :message, NOW())");
+        $trans_query = $this->pdo->prepare("INSERT INTO transactions (user_id, sender_wallet, transaction_hash, total, payment_reason, order_number, notes, transaction_message, transaction_date, short_code) VALUES (:user_id, :transaction_hash, :total, :payment_reason, :order_number, :notes, :message, NOW(), :short_code)");
         $recceiver_query = $this->pdo->prepare("INSERT INTO transactions_user (transaction_id, wallet_id, name, address, city, state, zip_code, country) VALUES (:transaction_id, :wallet_id, :name, :address, :city, :state, :zip_oder, :country)");
         try {
             $this->pdo->beginTransaction();
@@ -35,7 +35,8 @@ class ReceiptModel extends Database
                 ':payment_reason' => $payment_reason,
                 ':order_number' => $order_number,
                 ':notes' => $note,
-                ':message' => $transaction_message
+                ':message' => $transaction_message,
+                ':short_code' => substr(str_shuffle(md5(microtime())), 0, 4)
             ));
             $transaction_id = $this->pdo->lastInsertId();
             $recceiver_query->execute(array(
@@ -65,10 +66,17 @@ class ReceiptModel extends Database
     }
 
     function getTransactionById($transid) {
-        $query = $this->pdo->prepare("SELECT tu.wallet_id, tu.name, tu.address, tu.city, tu.state, tu.zip_code, tu.country, t.id, t.total, t.transaction_date, t.notes, t.order_number,t.payment_reason, t.transaction_hash, t.sender_wallet FROM transactions t LEFT JOIN transactions_user tu ON t.id = tu.transaction_id WHERE t.id = :transaction_id");
+        $query = $this->pdo->prepare("SELECT tu.wallet_id, tu.name, tu.address, tu.city, tu.state, tu.zip_code, tu.country, t.id, t.total, t.transaction_date, t.notes, t.order_number,t.payment_reason, t.transaction_hash, t.sender_wallet, t.short_code FROM transactions t LEFT JOIN transactions_user tu ON t.id = tu.transaction_id WHERE t.id = :transaction_id");
         $query->execute(array(':transaction_id' => $transid));
         $result = $query->fetch(PDO::FETCH_ASSOC);
 
+        return $result;
+    }
+
+    function getTransactionByShortCode($shortcode){
+        $query = $this->pdo->prepare("SELECT id FROM transactions WHERE short_code = :short_code");
+        $query->execute(array(':short_code' => $shortcode));
+        $result =$query->fetch(PDO::FETCH_ASSOC);
         return $result;
     }
 }

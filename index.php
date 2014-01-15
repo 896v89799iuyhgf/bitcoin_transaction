@@ -5,9 +5,7 @@ session_start();
 
  * @package Example-application
  */
-/*if($_SESSION['user_logged']) {
-    header("Location: user_dashboard");
-}*/
+require 'includes/config.php';
 require 'includes/Smarty/Smarty.class.php';
 require 'includes/class/FrontController.php';
 
@@ -21,7 +19,23 @@ $page = $_GET['page'];
 
 $smarty->assign('link', $url);
 $smarty->assign('page', $page);
+
+//Set variable for footer
+$userCount = $front_controller->countUser();
+$smarty->assign('userNumber', $userCount);
+$datecount = $front_controller->countTransByTime('day');
+$weekcount = $front_controller->countTransByTime('week');
+$monthcount = $front_controller->countTransByTime('month');
+$yearcount = $front_controller->countTransByTime('year');
+
+$smarty->assign('dayNumber', $datecount);
+$smarty->assign('weekNumber', $weekcount);
+$smarty->assign('monthNumber', $monthcount);
+$smarty->assign('yearNumber', $yearcount);
 switch($url){
+    case ('receipt'):
+        require_once('controller/short_receipt.php');
+        break;
     case ('forgot_password'):
         require_once('controller/forgot_password.php');
         break;

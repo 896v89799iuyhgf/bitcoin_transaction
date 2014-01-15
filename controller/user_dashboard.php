@@ -113,15 +113,15 @@ if ($_SESSION['user_logged']) {
             $smarty->assign('user', $userInfo);
             break;
         case('receipt_item'):
-            require_once 'model/URLModel.php';
-            $urlmodel = new URLModel();
             $trans_id = $_GET['item'];
             $userInfo = $usermodel->getUserInfo($user['id']);
             $transactions = $receiptmodel->getTransactionById($trans_id);
+            $url = $site_url.'receipt?c=' . $transactions['short_code'];
 
             $smarty->assign('trans', $transactions);
             $smarty->assign('user', $userInfo);
             $smarty->assign('trans_id', $trans_id);
+            $smarty->assign('short_code', $url);
             break;
         case ('receipt_history'):
             $transactions = $receiptmodel->getTransactionByUser($user['id']);

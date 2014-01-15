@@ -33,7 +33,7 @@ class UserModel extends Database
         } else {
             $this->failed_attempt($email);
         }
-        return 'Wrong Username or Password!';
+        return 'Wrong Email or Password!';
     }
 
     function registerUser($username, $password, $email, $phone, $status = null, $group = null)

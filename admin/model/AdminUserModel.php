@@ -122,7 +122,7 @@ class AdminUserModel extends Database {
     }
 
     function getTransactionById($transid) {
-        $query = $this->pdo->prepare("SELECT tu.wallet_id, tu.name, tu.address, tu.city, tu.state, tu.zip_code, tu.country, t.id, t.total, t.transaction_date, t.notes, t.order_number,t.payment_reason, t.transaction_hash, t.sender_wallet FROM transactions t LEFT JOIN transactions_user tu ON t.id = tu.transaction_id WHERE t.id = :transaction_id");
+        $query = $this->pdo->prepare("SELECT tu.wallet_id, tu.name, tu.address, tu.city, tu.state, tu.zip_code, tu.country, t.id, t.total, t.transaction_date, t.notes, t.order_number,t.payment_reason, t.transaction_hash, t.sender_wallet, t.short_code FROM transactions t LEFT JOIN transactions_user tu ON t.id = tu.transaction_id WHERE t.id = :transaction_id");
         $query->execute(array(':transaction_id' => $transid));
         $result = $query->fetch(PDO::FETCH_ASSOC);
 

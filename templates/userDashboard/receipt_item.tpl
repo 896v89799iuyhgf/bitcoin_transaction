@@ -9,7 +9,7 @@
     <tbody>
         <tr>
             <td colspan="2">
-                <a class="pull-left" href="user_dashboard?page=receipt_item&item={$trans_id}">Receipt URL Address</a>
+                <a target="_blank" class="pull-left" href="{$short_code}">Receipt URL Address</a>
                 {literal}
                 <!-- AddThis Button BEGIN -->
                 <div class="addthis_toolbox addthis_default_style pull-right">
@@ -74,7 +74,7 @@
                     <dt>Address</dt>
                     <dd>{$trans.address}</dd>
                     <dt>State</dt>
-                    <dd>{$trans.state}dd>
+                    <dd>{$trans.state}<dd>
                     <dt>City</dt>
                     <dd>{$trans.city}</dd>
                     <dt>Zip/postal code</dt>
